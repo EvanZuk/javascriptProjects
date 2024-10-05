@@ -1,0 +1,274 @@
+//Find the original here: https://editor.p5js.org/e.z.pog.dog/sketches/wQuvcybyL
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+class cube {
+  constructor(x, y, z, size, foLg) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.size = size;
+
+    /* 
+    1 is back top right
+    2 is front top right
+    3 is back bottem right
+    4 is back top left
+    5 is back bottem left
+    6 is front bottem right
+    7 is front bottem left
+    8 is front top left
+    */
+    this.p1 = [this.x, this.y, this.z];
+    this.p2 = [this.x, this.y, this.z - this.size];
+    this.p3 = [this.x, this.y - this.size, this.z];
+    this.p4 = [this.x + this.size, this.y, this.z];
+    this.p5 = [this.x + this.size, this.y - this.size, this.z];
+    this.p6 = [this.x, this.y - this.size, this.z - this.size];
+    this.p7 = [this.x + this.size, this.y - this.size, this.z - this.size];
+    this.p8 = [this.x + this.size, this.y, this.z - this.size];
+
+    this.foLg = foLg;
+
+    this.p1P;
+    this.p2P;
+    this.p3P;
+    this.p4P;
+    this.p5P;
+    this.p6P;
+    this.p7P;
+
+    this.fp1P;
+    this.fp2P;
+    this.fp3P;
+    this.fp4P;
+    this.fp5P;
+    this.fp6P;
+    this.fp7P;
+  }
+
+  calculating() {
+    this.p1 = [this.x, this.y, this.z];
+    this.p2 = [this.x, this.y, this.z - this.size];
+    this.p3 = [this.x, this.y - this.size, this.z];
+    this.p4 = [this.x + this.size, this.y, this.z];
+    this.p5 = [this.x + this.size, this.y - this.size, this.z];
+    this.p6 = [this.x, this.y - this.size, this.z - this.size];
+    this.p7 = [this.x + this.size, this.y - this.size, this.z - this.size];
+    this.p8 = [this.x + this.size, this.y, this.z - this.size];
+
+    // Projected values
+    this.p1P = [
+      (this.p1[0] * this.foLg) / (this.p1[2] + this.foLg),
+      (this.p1[1] * this.foLg) / (this.p1[2] + this.foLg),
+    ];
+    this.p2P = [
+      (this.p2[0] * this.foLg) / (this.p2[2] + this.foLg),
+      (this.p2[1] * this.foLg) / (this.p2[2] + this.foLg),
+    ];
+    this.p3P = [
+      (this.p3[0] * this.foLg) / (this.p3[2] + this.foLg),
+      (this.p3[1] * this.foLg) / (this.p3[2] + this.foLg),
+    ];
+    this.p4P = [
+      (this.p4[0] * this.foLg) / (this.p4[2] + this.foLg),
+      (this.p4[1] * this.foLg) / (this.p4[2] + this.foLg),
+    ];
+    this.p5P = [
+      (this.p5[0] * this.foLg) / (this.p5[2] + this.foLg),
+      (this.p5[1] * this.foLg) / (this.p5[2] + this.foLg),
+    ];
+    this.p6P = [
+      (this.p6[0] * this.foLg) / (this.p6[2] + this.foLg),
+      (this.p6[1] * this.foLg) / (this.p6[2] + this.foLg),
+    ];
+    this.p7P = [
+      (this.p7[0] * this.foLg) / (this.p7[2] + this.foLg),
+      (this.p7[1] * this.foLg) / (this.p7[2] + this.foLg),
+    ];
+    this.p8P = [
+      (this.p8[0] * this.foLg) / (this.p8[2] + this.foLg),
+      (this.p8[1] * this.foLg) / (this.p8[2] + this.foLg),
+    ];
+
+    // Fix projected values for the p5 grid
+    this.fp1P = [400 - (this.p1P[0] + 200), 400 - (this.p1P[1] + 200)];
+    this.fp2P = [400 - (this.p2P[0] + 200), 400 - (this.p2P[1] + 200)];
+    this.fp3P = [400 - (this.p3P[0] + 200), 400 - (this.p3P[1] + 200)];
+    this.fp4P = [400 - (this.p4P[0] + 200), 400 - (this.p4P[1] + 200)];
+    this.fp5P = [400 - (this.p5P[0] + 200), 400 - (this.p5P[1] + 200)];
+    this.fp6P = [400 - (this.p6P[0] + 200), 400 - (this.p6P[1] + 200)];
+    this.fp7P = [400 - (this.p7P[0] + 200), 400 - (this.p7P[1] + 200)];
+    this.fp8P = [400 - (this.p8P[0] + 200), 400 - (this.p8P[1] + 200)];
+  }
+
+  move(x, y, z) {
+    this.x += x;
+    this.y += y;
+    this.z += z;
+    this.calculating();
+  }
+
+  displayWire() {
+    if (this.z > 0) {
+      fill(0);
+
+      line(this.fp1P[0], this.fp1P[1], this.fp2P[0], this.fp2P[1]);
+      line(this.fp1P[0], this.fp1P[1], this.fp3P[0], this.fp3P[1]);
+      line(this.fp1P[0], this.fp1P[1], this.fp4P[0], this.fp4P[1]);
+
+      line(this.fp5P[0], this.fp5P[1], this.fp4P[0], this.fp4P[1]);
+      line(this.fp5P[0], this.fp5P[1], this.fp3P[0], this.fp3P[1]);
+      line(this.fp5P[0], this.fp5P[1], this.fp7P[0], this.fp7P[1]);
+
+      line(this.fp8P[0], this.fp8P[1], this.fp2P[0], this.fp2P[1]);
+      line(this.fp8P[0], this.fp8P[1], this.fp4P[0], this.fp4P[1]);
+      line(this.fp8P[0], this.fp8P[1], this.fp7P[0], this.fp7P[1]);
+
+      line(this.fp6P[0], this.fp6P[1], this.fp3P[0], this.fp3P[1]);
+      line(this.fp6P[0], this.fp6P[1], this.fp7P[0], this.fp7P[1]);
+      line(this.fp6P[0], this.fp6P[1], this.fp2P[0], this.fp2P[1]);
+    }
+  }
+
+  displayFull() {
+    if (this.z > 0) {
+      noStroke();
+      fill(130, 70, 0);
+
+      //Bottem
+      quad(
+        this.fp3P[0],
+        this.fp3P[1],
+        this.fp6P[0],
+        this.fp6P[1],
+        this.fp7P[0],
+        this.fp7P[1],
+        this.fp5P[0],
+        this.fp5P[1]
+      );
+      //Back
+      quad(
+        this.fp1P[0],
+        this.fp1P[1],
+        this.fp3P[0],
+        this.fp3P[1],
+        this.fp5P[0],
+        this.fp5P[1],
+        this.fp4P[0],
+        this.fp4P[1]
+      );
+
+      //Right
+      quad(
+        this.fp1P[0],
+        this.fp1P[1],
+        this.fp3P[0],
+        this.fp3P[1],
+        this.fp6P[0],
+        this.fp6P[1],
+        this.fp2P[0],
+        this.fp2P[1]
+      );
+
+      //Left
+      quad(
+        this.fp4P[0],
+        this.fp4P[1],
+        this.fp5P[0],
+        this.fp5P[1],
+        this.fp7P[0],
+        this.fp7P[1],
+        this.fp8P[0],
+        this.fp8P[1]
+      );
+
+      //Front
+      quad(
+        this.fp7P[0],
+        this.fp7P[1],
+        this.fp6P[0],
+        this.fp6P[1],
+        this.fp2P[0],
+        this.fp2P[1],
+        this.fp8P[0],
+        this.fp8P[1]
+      );
+
+      //Top
+      fill(20, 255, 40);
+      quad(
+        this.fp1P[0],
+        this.fp1P[1],
+        this.fp2P[0],
+        this.fp2P[1],
+        this.fp8P[0],
+        this.fp8P[1],
+        this.fp4P[0],
+        this.fp4P[1]
+      );
+    }
+  }
+}
+
+var blocks = [new cube(0, 0, 100, 100, 500)];
+
+var grid = [
+  [1, 2, 3, 4, 5, 6],
+  [1, 2, 3, 4, 5, 6],
+  [1, 2, 3, 4, 5, 6],
+  [1, 2, 3, 4, 5, 6],
+  [1, 2, 3, 4, 5, 6],
+  [1, 2, 3, 4, 5, 6],
+  [1, 2, 3, 4, 5, 6]
+];
+
+for (let i = grid.length - 1; i >= 0; i--) {
+  for (let b = grid[i].length - 1; b >= 0; b--) {
+    // console.log(grid[i][b]);
+    addBlock(i, b);
+  }
+}
+
+
+function addBlock(i, b) {
+  let x = blocks[0].x + 100 * b;
+  let y = blocks[0].y;
+  let z = blocks[0].z + 100 * i;
+
+  blocks.push(new cube(x, y, z, 100, 500));
+  //console.log(blocks);
+}
+
+function draw() {
+  background(100);
+
+  for (let i = 0; i < blocks.length; i++) {
+    let a = blocks[i];
+
+    a.calculating();
+
+    if (keyIsPressed && keyCode == 87) {
+      a.move(0, 0, -10);
+    }
+    if (keyIsPressed && keyCode == 83) {
+      a.move(0, 0, 10);
+    }
+    if (keyIsPressed && keyCode == 65) {
+      a.move(10, 0, 0);
+    }
+    if (keyIsPressed && keyCode == 68) {
+      a.move(-10, 0, 0);
+    }
+    if (keyIsPressed && keyCode == 16) {
+      a.move(0, 10, 0);
+    }
+    if (keyIsPressed && keyCode == 32) {
+      a.move(0, -10, 0);
+    }
+
+    a.displayFull();
+  }
+}
